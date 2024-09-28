@@ -41,8 +41,8 @@ def create_df_order_score(df):
 
 # DATA WRANGLING
 ## Gathering Data
-df_orders = pd.read_csv("olist_orders_dataset.csv")
-df_reviews = pd.read_csv("olist_order_reviews_dataset.csv")
+df_orders = pd.read_csv("brazilian-ecommerce-analysis/olist_orders_dataset.csv")
+df_reviews = pd.read_csv("brazilian-ecommerce-analysis/olist_order_reviews_dataset.csv")
 
 ## Cleaning Data
 datetime_columns_orders = ["order_purchase_timestamp", "order_approved_at", "order_delivered_carrier_date", "order_delivered_customer_date", "order_estimated_delivery_date"]
