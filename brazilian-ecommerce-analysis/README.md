@@ -14,7 +14,7 @@ pipenv shell
 pip install -r requirements.txt
 ```
 
-## Run steamlit app
+## Run streamlit app
 ```
 streamlit run dashboard.py
 ```
@@ -23,3 +23,5 @@ streamlit run dashboard.py
 ```
 jupyter notebook notebook.ipynb
 ```
+
+Atau [lihat dashboard](https://project-g5fypfzcdwgsnaswak6w66.streamlit.app/) tanpa mengunduh file.
