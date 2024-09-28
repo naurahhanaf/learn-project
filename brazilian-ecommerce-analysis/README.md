@@ -19,9 +19,10 @@ pip install -r requirements.txt
 streamlit run dashboard.py
 ```
 
+## Online Dashboard Access
+Buka url.txt untuk langsung mengakses dashboard atau [lihat disini](https://project-aircyvmetxvmkxyz5v8jm2.streamlit.app/).
+
 ## Run jupyter notebook (optional)
 ```
 jupyter notebook notebook.ipynb
 ```
-
-Atau [lihat dashboard](https://project-g5fypfzcdwgsnaswak6w66.streamlit.app/) tanpa mengunduh file.
