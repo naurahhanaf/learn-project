@@ -16,13 +16,15 @@ def create_df_year_month_order(df):
     return df_year_month_order
 
 # Menyiapkan function untuk analisis data 2
-def create_df_delivery_performa(df):
-    df_delivery_performa = df.groupby(by=["order_purchase_year", "order_purchase_month", "delivery_status"]).order_id.nunique().reset_index() \
-    .sort_values(by=["order_purchase_year", "order_purchase_month"]).reset_index(drop=True) \
-    .rename(columns={"order_id": "order_count"}) \
-    .query('order_count > 0')
+def create_df_delivery_status(df):
+    df_delivery_status = df.groupby(by="delivery_status").agg({
+    "order_id" : "nunique"
+    })
+    df_delivery_status.rename(columns={
+        "order_id": "order_count"
+    }, inplace=True)
 
-    return df_delivery_performa
+    return df_delivery_status
 
 # Menyiapkan function untuk analisis data 3
 def create_df_order_score(df):
@@ -39,8 +41,8 @@ def create_df_order_score(df):
 
 # DATA WRANGLING
 ## Gathering Data
-df_orders = pd.read_csv("data/olist_orders_dataset.csv")
-df_reviews = pd.read_csv("data/olist_order_reviews_dataset.csv")
+df_orders = pd.read_csv("olist_orders_dataset.csv")
+df_reviews = pd.read_csv("olist_order_reviews_dataset.csv")
 
 ## Cleaning Data
 datetime_columns_orders = ["order_purchase_timestamp", "order_approved_at", "order_delivered_carrier_date", "order_delivered_customer_date", "order_estimated_delivery_date"]
@@ -85,130 +87,74 @@ df_order_review_filtered = df_order_review[
 
 
 # DASHBOARD
-st.header("Dashboard Pengiriman Pesanan (Delivery Order) E-Commerce Olist")
-st.subheader("Performa Pengiriman Pesanan Olist, E-Commerce terbesar di Brasil pada tahun 2017-2018")
+st.header("Delivery Order Performance of Brazilian E-Commerce Dashboard")
 st.write("Proyek Analisis Data Dicoding oleh Naurahhana Firdaustsabita")
 
 with st.expander('Tentang Dataset Brazilian E-Commerce'):
     st.write(
-        "Dataset ini disediakan oleh Olist, perusahaan e-commerce terbesar di Brasil yang memfasilitasi bisnis kecil. Olist berperan sebagai penghubung antara toko-toko kecil dengan berbagai marketplace, sehingga mempermudah mereka untuk menjual produk secara online. Produk yang dijual langsung dikirim dari toko ke konsumen melalui mitra logistik Olist. Selebihnya tentang dataset ini dapat mengunjungi kaggle di [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce/)."
+        "Dataset ini disediakan oleh Olist, perusahaan e-commerce terbesar di Brasil yang memfasilitasi bisnis kecil. Olist berperan sebagai penghubung antara toko-toko kecil dengan berbagai marketplace, sehingga mempermudah mereka untuk menjual produk secara online. Produk yang dijual langsung dikirim dari toko ke konsumen melalui mitra logistik Olist. Selebihnya tentang Olist dapat mengunjungi [Website Olist](www.olist.com)."
     )
 
-# Data viz 1 : Tren Jumlah Order
-## Membuat dataframe
-df_year_month_order = create_df_year_month_order(df_order_review_filtered)
-total_orders_2017 = df_year_month_order[df_year_month_order["order_purchase_year"] == 2017]["order_count"].sum()
-total_orders_2018 = df_year_month_order[df_year_month_order["order_purchase_year"] == 2018]["order_count"].sum()
-
-st.subheader("Tren Jumlah Pesanan per Bulan")
-st.write("Januari 2017 - Agustus 2018")
-
-## Membuat chart
-fig, ax = plt.subplots()
-sns.lineplot(
-    x="order_purchase_month",   #sumbu x
-    y="order_count",            #sumbu y
-    hue="order_purchase_year",
-    data=df_year_month_order, 
-    marker="o", 
-    palette=["#014040", "#02735E"]
-)
-handles, labels = ax.get_legend_handles_labels()
-plt.legend(
-    handles=handles, # objek grafis dari legend (misalnya, garis).
-    labels=[f"2017 (Total: {total_orders_2017})", f"2018 (Total: {total_orders_2018})"], 
-    title="Tahun"
-)
-plt.xlabel("Bulan", fontsize=12)
-plt.ylabel("Jumlah Order", fontsize=12)
-plt.xticks(rotation=45)
-st.pyplot(fig)
-
-
-
-
-# Data viz 2 dan 3
-st.subheader("Performa Pengiriman Pesanan per Tahun")
-
-## Membuat dataframe
-df_delivery_performa = create_df_delivery_performa(df_order_review_filtered)
-
 col1, col2 = st.columns([3,2])
+
 with col1: 
-    ## Membuat filter tahun
-    years = df_delivery_performa["order_purchase_year"].unique()
-    selected_year = st.selectbox("Pilih Tahun:", years)
+    # Data viz 1 : Tren Jumlah Order
+    ## Membuat dataframe
+    df_year_month_order = create_df_year_month_order(df_order_review_filtered)
+    total_orders_2017 = df_year_month_order[df_year_month_order["order_purchase_year"] == 2017]["order_count"].sum()
+    total_orders_2018 = df_year_month_order[df_year_month_order["order_purchase_year"] == 2018]["order_count"].sum()
 
-    ## Membuat dataframe yang memuat data setelah memilih filter tahun
-    filtered_data = df_delivery_performa[(df_delivery_performa)["order_purchase_year"] == (selected_year)]
+    st.subheader("Jumlah Order per Bulan (2017 - 2018)")
 
-    # Data viz 2 : Performa ketepatan waktu delivery
-    if not filtered_data.empty:
-        plt.figure(figsize=(12, 6))
-        plt.subplot(1, 1, 1)
-        sns.barplot(data=filtered_data, 
-                    x="order_purchase_month", 
-                    y="order_count", 
-                    hue="delivery_status", 
-                    palette=["#F27457", "#04BF9D"])
-        
-        plt.title(f"Performa Status Pengiriman Pesanan Tahun {selected_year}")
-        plt.xlabel("Bulan")
-        plt.ylabel("Jumlah Pesanan")
-        plt.xticks(rotation=45)
-        plt.legend(title="Status Pengiriman")
-        
-        st.pyplot(plt)
-
-    else:
-        st.write("Tidak ada data untuk tahun yang dipilih.")
+    ## Membuat chart
+    fig, ax = plt.subplots()
+    sns.lineplot(
+        x="order_purchase_month",   #sumbu x
+        y="order_count",            #sumbu y
+        hue="order_purchase_year",
+        data=df_year_month_order, 
+        marker="o", 
+        palette=["#72BCD4", "#FF6F61"]
+    )
+    handles, labels = ax.get_legend_handles_labels()
+    plt.legend(
+        handles=handles, # objek grafis dari legend (misalnya, garis).
+        labels=[f"2017 (Total: {total_orders_2017})", f"2018 (Total: {total_orders_2018})"], 
+        title="Tahun"
+    )
+    plt.xlabel("Bulan", fontsize=12)
+    plt.ylabel("Jumlah Order", fontsize=12)
+    plt.xticks(rotation=45)
+    st.pyplot(fig)
 
 with col2:
-    # Data viz 3 : Presentase status pengiriman
-    ## Membuat metric
+    # Data viz 2 : Presentase status pengiriman
+    ## Membuat dataframe
+    df_delivery_status = create_df_delivery_status(df_order_review_filtered)
+
+    st.subheader("Persentase Status Pengiriman")
     col3, col4 = st.columns(2)
-    if not filtered_data.empty:
-        ## Membuat dataframe untuk memuat jumlah delivery_status berdasarkan order_count
-        df_delivery_status = filtered_data.groupby("delivery_status")["order_count"].sum()
-        
-        with col3:
-            ## Mendapatkan jumlah pesanan Late
-            late_orders = df_delivery_status.get("Late", 0)
-            st.metric(label="Late Orders", value=late_orders)
+    with col3:
+        late_orders = df_delivery_status.loc['Late', 'order_count']
+        st.metric(label="Late Orders", value=late_orders)
+    
+    with col4:
+        on_time_orders = df_delivery_status.loc['On Time', 'order_count']
+        st.metric(label="On Time Orders", value=on_time_orders)
 
-        with col4:
-            ## Mendapatkan jumlah pesanan On Time
-            on_time_orders = df_delivery_status.get("On Time", 0)
-            st.metric(label="On Time Orders", value=on_time_orders)
-    else:
-        st.write("Tidak ada data tahun yang dipilih.")
+    ## Membuat chart
+    fig, ax = plt.subplots()
+    plt.pie(
+        df_delivery_status["order_count"], 
+        explode= (0.1, 0) , 
+        labels= df_delivery_status.index, 
+        colors= ["#FF6F61", "#72BCD4"], 
+        autopct='%1.1f%%', 
+        startangle=140
+    )
+    st.pyplot(fig)
 
-    ## Membuat pie chart
-    if not filtered_data.empty:
-        # Pie chart
-        plt.figure(figsize=(8, 8))
-        plt.pie(
-            df_delivery_status, 
-            explode=(0.1, 0),  # Membuat bagian "Late" terpisah sedikit dari yang lain
-            labels=df_delivery_status.index, 
-            colors=["#F27457", "#04BF9D"],  # Warna untuk status "Late" dan "On Time"
-            autopct='%1.1f%%', 
-            startangle=140
-        )
-        plt.title(f"Persentase Status Pengiriman Tahun {selected_year}", fontsize=16)
-        plt.tight_layout()
-
-        # Menampilkan plot di Streamlit
-        st.pyplot(plt)
-
-    else:
-        st.write("Tidak ada data untuk tahun yang dipilih.")
-
-
-
-
-
-# Data viz 4 : Hubungan antara rating ulasan dan ketepatan waktu pengiriman
+# Data viz 3 : Hubungan antara rating ulasan dan ketepatan waktu pengiriman
 ## Membuat dataframe
 df_order_score = create_df_order_score(df_order_review_filtered)
 st.subheader("Hubungan antara Rating Ulasan dan Ketepatan Waktu Pengiriman")
