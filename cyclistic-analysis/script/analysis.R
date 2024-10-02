@@ -1,7 +1,3 @@
-# Menginstall packages
-install.packages("tidyverse")
-install.packages("rmarkdown")
-
 # Memuat library
 library(tidyverse)
 library(lubridate)
