@@ -10,17 +10,21 @@ Proyek ini merupakan bagian dari studi kasus pada kursus **Google Data Analytics
    cd cyclistic-analysis
    
 2. Unduh dataset di [Cyclistic Trip Data](https://divvy-tripdata.s3.amazonaws.com/index.html)
-   - 202401-divvy-tripdata.csv
-   - 202402-divvy-tripdata.csv
-   - 202403-divvy-tripdata.csv
-   - 202404-divvy-tripdata.csv
-   - 202405-divvy-tripdata.csv
-   - 202406-divvy-tripdata.csv
-   - 202407-divvy-tripdata.csv
-   - 202408-divvy-tripdata.csv
+   ```
+   mkdir -p data
 
-3. Install package yang dibutuhkan di R:
+   curl -o data/202401-divvy-tripdata.csv https://divvy-tripdata.s3.amazonaws.com/202401-divvy-tripdata.csv
+   curl -o data/202402-divvy-tripdata.csv https://divvy-tripdata.s3.amazonaws.com/202402-divvy-tripdata.csv
+   curl -o data/202403-divvy-tripdata.csv https://divvy-tripdata.s3.amazonaws.com/202403-divvy-tripdata.csv
+   curl -o data/202404-divvy-tripdata.csv https://divvy-tripdata.s3.amazonaws.com/202404-divvy-tripdata.csv
+   curl -o data/202405-divvy-tripdata.csv https://divvy-tripdata.s3.amazonaws.com/202405-divvy-tripdata.csv
+   curl -o data/202406-divvy-tripdata.csv https://divvy-tripdata.s3.amazonaws.com/202406-divvy-tripdata.csv
+   curl -o data/202407-divvy-tripdata.csv https://divvy-tripdata.s3.amazonaws.com/202407-divvy-tripdata.csv
+   curl -o data/202408-divvy-tripdata.csv https://divvy-tripdata.s3.amazonaws.com/202408-divvy-tripdata.csv
+
+3. Install package yang dibutuhkan di R console:
+   ```
    install.packages("tidyverse")
    install.packages("rmarkdown")
 
-4. Buka file analysis.r dan jalankan kode R untuk melakukan analisis. 
+4. Buka file 'analysis.r' dan jalankan kode R untuk melakukan analisis. 
