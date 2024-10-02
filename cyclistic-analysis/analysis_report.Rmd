@@ -1,0 +1,323 @@
+---
+title: "Proyek Analisis Data: Perjalanan Sepeda Cyclistic Tahun 2023"
+author: "Naurahhana Firdaustsabita"
+date: "2024-09-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lubridate)
+library(ggplot2)
+library(dplyr)
+```
+
+## Skenario Studi Kasus
+
+Anda adalah seorang analis data junior yang bekerja di tim analis pemasaran di Cyclistic, sebuah perusahaan berbagi sepeda di Chicago. **Direktur pemasaran percaya bahwa kesuksesan perusahaan di masa depan tergantung pada upaya untuk memaksimalkan jumlah keanggotaan tahunan**. Oleh karena itu, tim Anda ingin memahami **bagaimana pengendara kasual dan anggota tahunan menggunakan sepeda Cyclistic secara berbeda**. Dari wawasan ini, tim Anda akan **merancang strategi pemasaran baru untuk mengubah pengendara biasa menjadi anggota tahunan**. Tetapi pertama-tama, para eksekutif Cyclistic harus menyetujui rekomendasi Anda, sehingga rekomendasi tersebut harus didukung dengan wawasan data yang menarik dan visualisasi data profesional.  
+
+Proyek ini akan menghasilkan laporan dengan hasil sebagai berikut:  
+
+1. Pernyataan yang jelas tentang tugas bisnis
+2. Deskripsi dari semua sumber data yang digunakan
+3. Dokumentasi tahap pembersihan atau manipulasi data
+4. Ringkasan analisis
+5. Mendukung visualisasi dan temuan utama
+6. Tiga rekomendasi teratas berdasarkan analisis
+
+## STEP 1: Bertanya (Ask)
+
+Pertanyaan bisnis berdasarkan studi kasus adalah sebagai berikut:
+
+1. Bagaimana pengendara kasual dan anggota tahunan menggunakan sepeda Cyclistic secara berbeda?
+2. Bagaimana merancang strategi pemasaran baru untuk mengubah pengendara biasa menjadi anggota tahunan?
+
+## STEP 2: Persiapan (Prepare)
+
+Data yang digunakan adalah data perjalanan Cyclistic. Data telah disediakan oleh Motivate International Inc. dengan [lisensi berikut](https://divvybikes.com/data-license-agreement). Data yang diunduh adalah data perjalanan sepeda selama tahun 2024 (Januari - Agustus) dalam format csv.
+
+### **Mengimpor data**
+Data yang telah diunduh kemudian diimpor menggunakan read_csv().
+
+```{r Impor data}
+data_202401 <- read_csv("data/202401-divvy-tripdata.csv")
+data_202402 <- read.csv("data/202402-divvy-tripdata.csv")
+data_202403 <- read.csv("data/202403-divvy-tripdata.csv")
+data_202404 <- read.csv("data/202404-divvy-tripdata.csv")
+data_202405 <- read.csv("data/202405-divvy-tripdata.csv")
+data_202406 <- read.csv("data/202406-divvy-tripdata.csv")
+data_202407 <- read.csv("data/202407-divvy-tripdata.csv")
+data_202408 <- read.csv("data/202408-divvy-tripdata.csv")
+```
+\
+
+### **Menggabungkan data ke dalam satu dataset**
+Membandingkan nama kolom masing-masing data menggunakan colnames().
+
+```{r cek nama kolom}
+colnames(data_202401)
+colnames(data_202402)
+colnames(data_202403)
+colnames(data_202404)
+colnames(data_202405)
+colnames(data_202406)
+colnames(data_202407)
+colnames(data_202408)
+```
+\
+Membandingkan tipe data masing-masing data menggunakan str().
+```{r cek tipe data}
+str(data_202401)
+str(data_202402)
+str(data_202403)
+str(data_202404)
+str(data_202405)
+str(data_202406)
+str(data_202407)
+str(data_202408)
+```
+\
+Pada data_202401, kolom started_at dan ended_at bertipe datetime. Ubah menjadi chr.
+```{r ubah tipe data_202401}
+data_202401 <- data_202401 %>%
+  mutate(
+    started_at = as.character(started_at),
+    ended_at = as.character(ended_at)
+  )
+str(data_202401)
+```
+\
+Langkah seanjutnya adalah menggabungkan semua data menjadi satu dataframe.
+```{r merge dataset}
+all_data <- bind_rows(
+  data_202401, data_202402, data_202403, data_202404, data_202405, data_202406, 
+  data_202407, data_202408
+  )
+all_data <- distinct(all_data)
+all_data
+```
+\
+
+## STEP 3: Proses (Process)
+Data yang telah digabung akan diproses dengan melakukan pembersihan data. 
+
+### **Periksa kolom pada dataframe terlebih dahulu**
+```{r periksa kolom 1}
+glimpse(all_data)         # melihat seluruh data secara sekilas
+summary(all_data)         # melihat statistik data
+colSums(is.na(all_data))  # melihat data null di setiap kolom
+```
+```{r periksa kolom 2}
+## Mengecek kolom rideable_type
+table(all_data$rideable_type)
+
+## Mengecek kolom member_casual untuk memastikan hanya casual dan member
+table(all_data$member_casual)
+```
+\
+
+### **Menambahkan kolom untuk membantu analisis data**
+
+Mengubah kolom started_at dan ended_at ke tipe datetime agar dapat dilakukan kalkulasi.
+```{r ubah tipe data}
+all_data <- all_data %>%
+  mutate(
+    started_at = as_datetime(started_at),
+    ended_at = as_datetime(ended_at)
+  )
+```
+
+Membuat kolom date(yyyy-mm-dd), day_of_week (hari), day (tanggal), month (bulan), dan year (tahun)
+```{r buat kolom date}
+all_data$date <- format(as.Date(all_data$started_at))
+all_data$day_of_week <- format(as.Date(all_data$started_at), "%A") #sunday, Monday, etc.
+all_data$day <- format(as.Date(all_data$started_at), "%d")
+all_data$month <- format(as.Date(all_data$started_at), "%m")
+all_data$year <- format(as.Date(all_data$started_at), "%Y")
+```
+
+Membuat kolom ride_length dengan melakukan kalkulasi kolom started_at dengan ended_at untuk memuat lama waktu perjalanan (menit)
+```{r buat kolom ride_length}
+all_data$ride_length <- as.numeric(difftime(all_data$ended_at, all_data$started_at, units = "mins"))
+```
+\
+
+## STEP 4 : Analisis (Analyze)
+Melakukan analisis deskriptif, metode analisis statistik yang digunakan untuk menggambarkan atau merangkum karakteristik utama dari suatu kumpulan data.
+
+### **Menganalisis kolom ride_length**
+```{r summary_ride}
+summary_ride <- all_data %>%
+  summarise(
+    mean = mean(ride_length),
+    median = median(ride_length),
+    max = max(ride_length),
+    min = min(ride_length)
+  )
+summary_ride
+```
+
+Filter ride_length yang kurang dari 0.
+```{r filter ride_length}
+all_data <- all_data %>%
+  filter(ride_length >= 0)
+min(all_data$ride_length)
+```
+\
+
+### **Menganalisis untuk mengetahui perbandingan banyak pengguna dan lama perjalanan**
+```{r summary_user}
+summary_user <- all_data %>%
+  group_by(member_casual) %>%
+  summarise(count = n(), # banyak pengguna
+            mean_ride_length = mean(ride_length)) %>% 
+  mutate(percentage = count / sum(count) * 100) # presentase pengguna
+summary_user
+```
+\
+
+### **Mengelompokkan tipe sepeda yang digunakan pengendara**
+```{r summary_rideable_type}
+summary_rideable_type <- all_data %>%
+  group_by(member_casual, rideable_type) %>%
+  summarize(count = n(), 
+            mean_ride_length = mean(ride_length),
+            .groups = "keep",)
+summary_rideable_type
+```
+\
+
+### **Menganalisis untuk melihat rata-rata ride_length per hari untuk pengendara**
+```{r mean ride_length}
+aggregate(all_data$ride_length ~ all_data$member_casual + all_data$day_of_week, FUN = mean)
+
+# Mengurutkan nama hari 
+all_data$day_of_week <- ordered(all_data$day_of_week, levels=c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"))
+
+aggregate(all_data$ride_length ~ all_data$member_casual + all_data$day_of_week, FUN = mean)
+```
+\
+
+### **Menganalisis perjalanan berdasarkan pengguna dan hari**
+```{r summary_data}
+summary_data <- all_data %>% 
+  group_by(member_casual, day_of_week) %>%  
+  summarise(number_of_rides = n(),  #jumlah baris di setiap group
+            average_duration = mean(ride_length),
+            .groups = "keep") %>%
+  arrange(member_casual, day_of_week)
+summary_data
+```
+\
+
+## STEP 5 : Membagikan (Share)
+Setelah melakukan analisis, langkah selanjutnya adalah membuat visualisasi untuk membagikan analisis sebelumnya.
+
+### **Membuat pie chart untuk melihat jumlah perjalanan yang dilakukan pengendara**
+```{r data viz 1: jumlah pengendara}
+summary_user %>% 
+  ggplot(aes(x = "", y = count, fill = member_casual)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar(theta = "y") +
+  labs(title = "Jumlah Perjalanan Pengendara Biasa (Casual) vs Anggota (Member)",
+       subtitle = "Data Januari sampai Agustus 2024",
+       fill = "Tipe Pengguna") +
+  scale_fill_manual(values = c("member" = "#1f77b4", "casual" = "#ff7f0e")) +
+  theme_void() +
+  theme(plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),
+        plot.subtitle = element_text(hjust = 0.5, size = 12, face = "italic", margin = margin(t = 5, b = 5)),
+        legend.position = "top") +
+  geom_text(aes(label = paste0(count, " (", round(percentage, 1), "%)")), 
+            position = position_stack(vjust = 0.5))
+```
+\
+
+### **Membuat bar chart untuk rata-rata durasi perjalanan pengendara berdasarkan jenis sepeda**
+```{r data viz 2: rata-rata durasi perjalanan}
+summary_rideable_type %>% 
+  ggplot(aes(x = rideable_type, y = mean_ride_length, fill = member_casual)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Rata-rata Durasi Perjalanan Pengendara",
+       subtitle = "Berdasarkan Jenis Sepeda yang Digunakan",
+       x = "Jenis Sepeda",
+       y = "Rata-rata Durasi Perjalanan (menit)") +
+  scale_fill_manual(values = c("member" = "#1f77b4", "casual" = "#ff7f0e")) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+        plot.subtitle = element_text(hjust = 0.5, size = 12, face = "italic"),
+        axis.title.x = element_text(size = 12, face = "bold"),
+        axis.title.y = element_text(size = 12, face = "bold")) +
+  geom_text(aes(label = round(mean_ride_length, 1)), 
+            position = position_dodge(width = 0.9), 
+            vjust = -0.5, 
+            size = 3)
+```
+\
+
+### **Membuat bar chart untuk banyak perjalanan yang dilakukan pengendara**
+```{r data viz 3: banyak perjalanan per hari}
+summary_data  %>% 
+  ggplot(aes(x = day_of_week, y = number_of_rides, fill = member_casual)) +
+  geom_col(position = "dodge") +
+  labs(title = "Jumlah Perjalanan yang Dilakukan Pengendara",
+       subtitle = "per Hari dari Bulan Januari sampai Agustus 2024",
+       x = "Hari",
+       y = "Banyak Perjalanan",
+       fill = "Tipe Pengguna") +
+  scale_fill_manual(values = c("member" = "#1f77b4", "casual" = "#ff7f0e")) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+        plot.subtitle = element_text(hjust = 0.5, size = 12, face = "italic"),
+        axis.title.x = element_text(size = 12, face = "bold"),
+        axis.title.y = element_text(size = 12, face = "bold"),
+        legend.position = "top") +
+  geom_text(aes(label = number_of_rides), 
+            position = position_dodge(width = 0.9), 
+            vjust = -0.5,
+            size = 3)
+```
+\
+
+### **Membuat bar chart untuk rata-rata durasi perjalanan pengendara**
+```{r}
+summary_data %>% 
+  ggplot(aes(x = day_of_week, y = average_duration, fill = member_casual)) +
+  geom_col(position = "dodge") +
+  labs(title = "Distribusi Rata-rata Durasi Perjalanan Pengendara",
+       subtitle = "per Hari dari Bulan Januari sampai Agustus 2024",
+       x = "Hari",
+       y = "Rata-rata Durasi Perjalanan (menit)",
+       fill = "Rider Type") +
+  scale_fill_manual(values = c("member" = "#1f77b4", "casual" = "#ff7f0e")) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+        plot.subtitle = element_text(hjust = 0.5, size = 12, face = "italic"),
+        axis.title.x = element_text(size = 12, face = "bold"),
+        axis.title.y = element_text(size = 12, face = "bold"),
+        legend.position = "top") +
+  geom_text(aes(label = round(average_duration, 1)), 
+            position = position_dodge(width = 0.9), 
+            vjust = -0.5, 
+            size = 3)
+
+```
+\
+
+## STEP 6 : Bertindak (Act)
+
+Berdasarkan analisis, kesimpulan yang didapat adalah :
+
+*1. Bagaimana anggota tahunan dan pengendara biasa menggunakan sepeda secara berbeda?*
+
+Selama tahun 2024, pengendara **anggota (member) 62.7% lebih banyak** melakukan perjalanan sepeda daripada pengendara biasa (casual). Namun, **37.3% total perjalanan pengendara biasa** rata-rata melakukan perjalanan dengan **durasi lebih lama yaitu 39,4 menit menggunakan sepeda classic (classic_bike) dan 15.1 menit menggunakan sepeda listrik (electric_bike)**. 
+
+Pengendara biasa lebih lama melakukan perjalanan di hari Minggu dengan rata-rata durasi 30.8 menit. Berbeda dengan pengendara biasa, pengendara anggota melakukan perjalanan dengan rata-rata durasi 14.9 menit di hari Minggu yang merupakan rata-rata dursi terlama dari hari-hari lainnya. 
+
+Jumlah perjalanan yang dilakukan oleh pengendara anggota lebih tinggi di hari Rabu (Wednesday) dengan total 405.108 perjalanan, sedangkan untuk pengendara biasa lebih tinggi di hari Sabtu dengan total 315.087 perjalanan.
+
+*2. Apa trategi pemasaran baru untuk mengubah pengendara biasa menjadi anggota tahunan?*
+
+- **Memberikan Penawaran Diskon untuk Pengendara Anggota (member)**, Cyclistic dapat menawarkan diskon untuk pengendara anggota yang sering melakukan perjalanan jarak jauh sehingga pengendara biasa (casual) yang biasanya mengahabiskan durasi perjalanan lebih lama bisa tertarik berlangganan menjadi member Cyclistic. Selain itu, Cyclistic juga dapat memberikan diskon tersebut saat weekend seperti hari Sabtu dan Minggu karena pengguna biasa lebih lama melakukan perjalanan di hari tersebut. Lebih spesifik lagi, penawaran diskon dapat diberikan khusus untuk jenis sepeda classic karena pengendara biasa berkendara menggunakan sepeda tersebut untuk durasi yang lebih lama.
+
+- **Memanfaatkan media digital**, Cyclistic dapat memanfaatkan media sosial untuk membuat iklan yang berisi informasi tentang benefit ketika menjadi anggota Cyclistic. Selain itu, Cyclistic dapat membuat konten tentang pengalaman pengendara anggota selama berlangganan menjadi anggota tahunan, serta meminta testimoni dari mereka sehingga pengguna casual tertarik menjadi member Cyclistic. Cyclistic juga dapat memanfaatkan media sosial untuk mengumumkan diskon dengan design yang menarik atensi pengendara biasa untuk membaca dan berlangganan menjadi anggota tahunan.
