@@ -1,4 +1,4 @@
-# Studi Kasus Analitik Data Google: Analisis Perjalanan Cyclistic
+# Analisis Perjalanan Cyclistic
 
 ## Deskripsi Proyek
 Proyek ini merupakan bagian dari studi kasus pada kursus **Google Data Analytics Specialization** di Coursera. Analisis ini bertujuan untuk memahami pola perjalanan pengguna sepeda di kota Chicago berdasarkan data yang disediakan oleh Cyclistic, sebuah layanan penyewaan sepeda, untuk membuat strategi pemasaran yang dapat mengubah pengendara biasa menjadi anggota tahunan.
