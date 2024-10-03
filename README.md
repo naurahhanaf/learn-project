@@ -20,4 +20,11 @@ A case study based on the Google Data Analytics Capstone Project, where I analyz
 - **Objective**: Analyze trip data to understand how casual and annual members use the service differently.
 - **Outcome**: The analysis helped identify key user behavior trends, providing insights for marketing strategies aimed at converting casual riders into annual members.
 
-#### [View the Analysis Report]()
+#### [View the Analysis Report](#)
+
+## Contact
+
+If you have any questions or would like to connect, feel free to reach out!
+
+- **LinkedIn**: [Your LinkedIn Profile](https://www.linkedin.com/in/naurahhana)
+- **Email**: naurahhanaffpp@gmail.com
