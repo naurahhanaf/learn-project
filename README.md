@@ -4,7 +4,7 @@ Welcome to my Data Analytics project repository. This repository showcases proje
 
 ## Projects
 
-### 1. [Brazilian E-Commerce Dashboard](https://github.com/naurahhanaf/project/tree/main/brazilian-ecommerce)
+### 1. [Brazilian E-Commerce Dashboard](https://github.com/naurahhanaf/project/tree/main/brazilian-ecommerce-analysis)
 A Python-based data analysis project focused on Brazilian e-commerce dataset from Kaggle.
 
 - **Tools Used**: Python (Pandas, Matplotlib), Streamlit
