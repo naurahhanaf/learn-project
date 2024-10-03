@@ -1,9 +1,9 @@
 # Delivery Order Performance of Brazilian E-Commerce Dashboard
-Proyek ini merupakan bagian proyek analisis data IDCamp 2024 (Belajar Analisis Data dengan Python - Dicoding), yang bertujuan untuk menganalisis performa pengiriman order Olist, perusahaan e-commerce terbesar di Brasil, dengan membuat dashboard visualisasi menggunakan Streamlit. 
+This project is part of the IDCamp 2024 data science course (Data Analysis with Python - Dicoding), which aims to analyze the delivery performance of Olist, Brazil's largest e-commerce company, by creating a visualization dashboard using Streamlit.
 
 ## Datasets
-- `olist_order_reviews_dataset.csv`: Berisi data tentang ulasan yang dibuat oleh pelanggan.
-- `olist_orders_dataset.csv`: Berisi detail pesanan pelanggan hingga waktu pengiriman order.
+- `olist_order_reviews_dataset.csv`: Contains data on customer reviews.
+- `olist_orders_dataset.csv`: Contains details of customer orders with delivery time.
 
 ## Setup Environment - Shell/Terminal
 ```
@@ -20,9 +20,10 @@ streamlit run dashboard.py
 ```
 
 ## Online Dashboard Access
-Buka url.txt untuk langsung mengakses dashboard atau [lihat disini](https://project-aircyvmetxvmkxyz5v8jm2.streamlit.app/).
+Open `url.txt` for direct access to the dashboard or [view it here](https://project-aircyvmetxvmkxyz5v8jm2.streamlit.app/).
 
-## Run jupyter notebook (optional)
+## Run Jupyter Notebook (optional)
+
 ```
 jupyter notebook notebook.ipynb
 ```
