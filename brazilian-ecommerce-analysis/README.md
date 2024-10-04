@@ -20,7 +20,7 @@ streamlit run dashboard.py
 ```
 
 ## Online Dashboard Access
-Open `url.txt` for direct access to the dashboard or [view it here](https://project-aircyvmetxvmkxyz5v8jm2.streamlit.app/).
+Open `url.txt` for direct access to the dashboard or [view it here](https://course-project-gdyobv9etbscuf8dpjcciy.streamlit.app/).
 
 ## Run Jupyter Notebook (optional)
 
