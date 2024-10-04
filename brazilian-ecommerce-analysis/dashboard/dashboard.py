@@ -175,7 +175,7 @@ with col5:
                     hue="delivery_status", 
                     palette=["#F27457", "#04BF9D"])
         
-        plt.title("Comparison of Number of On-Time and Late Orders per Month", fontsize=18)
+        plt.title("Comparison of On-Time and Late Delivery Orders per Month", fontsize=18)
         plt.xlabel("Month")
         plt.ylabel("Total Orders")
         plt.xticks(rotation=45)
