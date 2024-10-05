@@ -1,6 +1,6 @@
 # Data Analytics and Data Science Course Projects by Naurahhana Firdaustsabita
 
-Welcome to my Data Analytics and Data Science course project repository. This repository showcases projects I've worked on, applying various data analysis techniques and tools like Python and R. Each project includes a brief description, data sources, and links to the analysis or dashboards. Feel free to explore my projects and get in touch if you have any questions or feedback!
+Welcome to my Data Analytics and Data Science learning project repository. This repository showcases learning projects I've worked on, applying various data analysis techniques and tools like Python and R. Each project includes a brief description, data sources, and links to the analysis or dashboards. Feel free to explore my projects and get in touch if you have any questions or feedback!
 
 ## Projects
 
