@@ -5,7 +5,7 @@ Welcome to my Data Analytics and Data Science learning project repository. This 
 ## Projects
 
 ### 1. [Brazilian E-Commerce Dashboard](https://github.com/naurahhanaf/project/tree/main/brazilian-ecommerce-analysis)
-A Python-based data analysis project focused on Brazilian e-commerce dataset from Kaggle.
+A Python-based data analysis project on Dicoding Learning, focused on Brazilian e-commerce dataset from Kaggle.
 
 - **Tools Used**: Python (Pandas, Matplotlib), Streamlit
 - **Objective**: Conducted analysis to identified annual delivery order performance.
