@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Muat model yang telah dilatih
-model = joblib.load('model_knn.jlb')
+model = joblib.load('water-potability-prediction/model/model_knn.jlb')
 
 # Fungsi untuk membuat prediksi
 def predict_potability(input_data):
