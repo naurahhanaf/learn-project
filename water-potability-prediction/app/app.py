@@ -33,7 +33,7 @@ with tab1 :
         st.write('K-NN merupakan algoritma yang digunakan untuk melakukan klasifikasi dengan mencari tetangga terdekat dari data baru berdasarkan jarak.')
 	
     st.write('Lihat representasi grafis dari performa model dalam mengklasifikasikan kelayakan air.')
-    st.image('confusion_matrix.png')
+    st.image('water-potability-prediction/app/confusion_matrix.png')
 
     st.write('''
     *Prediksi yang diberikan oleh website ini hanya berdasarkan model yang telah dilatih dan harus digunakan sebagai referensi tambahan. Untuk penilaian kelayakan air yang akurat, disarankan untuk melakukan uji laboratorium yang lengkap.*
