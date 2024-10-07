@@ -1,6 +1,6 @@
 # Water Quality Prediction
 
-This project is part of the *Fundamentals of Data Science* course in my college, where we explore and apply data science techniques to real-world datasets. In this project, we aims to predict the potability of water whether water is safe for human consumption based on various physical and chemical attributes using a machine learning model. This website is designed to help researchers to assess water potability based on various water quality parameters. In this project, we use the [Water Potability dataset](https://www.kaggle.com/datasets/adityakadiwal/water-potability?resource=download) from Kaggle.
+This project is part of the *Fundamentals of Data Science* course in my college, where we explore and apply data science techniques to real-world datasets. In this project, we aims to predict the potability of water whether water is safe for human consumption based on various physical and chemical attributes using a machine learning model. This website is designed to help researchers to assess water potability based on various water quality parameters. In this project, we use the [Water Quality Dataset](https://www.kaggle.com/datasets/adityakadiwal/water-potability?resource=download) from Kaggle.
 
 ## Model and Approach
 
