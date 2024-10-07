@@ -11,7 +11,7 @@ A Python-based data analysis project on Dicoding Learning, focused on Brazilian 
 - **Objective**: Conducted analysis to identified annual delivery order performance.
 - **Outcome**: Interactive dashboard to present informative and easy-to-understand data visualizations.
 
-#### [View the Dashboard](https://project-aircyvmetxvmkxyz5v8jm2.streamlit.app/)
+#### [View the Dashboard](https://course-project-gdyobv9etbscuf8dpjcciy.streamlit.app/)
 
 ### 2. [Cyclistic Bike-Share Analysis](https://github.com/naurahhanaf/project/tree/main/cyclistic-analysis)
 A case study based on the Google Data Analytics Capstone Project, where I analyzed Cyclistic's bike-share data using R.
