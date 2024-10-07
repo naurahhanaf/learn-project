@@ -111,7 +111,7 @@ with tab3:
              ''')
     
     st.write('### Pratinjau Dataset')
-    data = pd.read_csv('water_potability.csv')  # Sesuaikan path dengan lokasi dataset
+    data = pd.read_csv('water-potability-prediction/data/water_potability.csv')  # Sesuaikan path dengan lokasi dataset
     st.dataframe(data.head(51))
 
 # Untuk menjalankan Streamlit, jalankan di terminal
