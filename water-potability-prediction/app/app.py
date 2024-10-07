@@ -1,13 +1,10 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 import joblib
 from sklearn.preprocessing import StandardScaler
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 # Muat model yang telah dilatih
-model = joblib.load('water-potability-prediction/model/model_knn.jlb')
+model = joblib.load('model_knn.jlb')
 
 # Fungsi untuk membuat prediksi
 def predict_potability(input_data):
@@ -33,7 +30,7 @@ with tab1 :
         st.write('K-NN merupakan algoritma yang digunakan untuk melakukan klasifikasi dengan mencari tetangga terdekat dari data baru berdasarkan jarak.')
 	
     st.write('Lihat representasi grafis dari performa model dalam mengklasifikasikan kelayakan air.')
-    st.image('water-potability-prediction/app/confusion_matrix.png')
+    st.image('confusion_matrix.png')
 
     st.write('''
     *Prediksi yang diberikan oleh website ini hanya berdasarkan model yang telah dilatih dan harus digunakan sebagai referensi tambahan. Untuk penilaian kelayakan air yang akurat, disarankan untuk melakukan uji laboratorium yang lengkap.*
