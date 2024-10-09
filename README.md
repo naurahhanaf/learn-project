@@ -22,9 +22,18 @@ A case study based on the Google Data Analytics Capstone Project, where I analyz
 
 #### [View the Analysis Report](https://naurahhanaf.github.io/project/cyclistic-analysis/docs/analysis_report.html)
 
+### 3. [Water Potability Prediction](https://github.com/naurahhanaf/project/tree/main/water-potability-prediction)
+A supervised machine learning project in the Fundamentals of Data Science course at my college, where I predicted Water Quality datasey from Kaggle.
+
+- **Tools Used** : Python (Pandas, Scikit Learn, Joblib), Streamlit
+- **Objective** :  Predict the potability of water, whether the water is safe for human consumption, based on various physical and chemical attributes using a K-Nearest Neighbors algorithm.
+- **Outcome** : A website that designed to help researchers assess water potability based on various water quality parameters.
+
+#### [View the Water Potability Website](https://project-e5qnvhgzue3dxmpayktwez.streamlit.app/)
+
 ## Contact
 
 If you have any questions or would like to connect, feel free to reach out!
 
-- **LinkedIn**: [Your LinkedIn Profile](https://www.linkedin.com/in/naurahhana)
+- **LinkedIn**: [naurahhana](https://www.linkedin.com/in/naurahhana)
 - **Email**: naurahhanaffpp@gmail.com
