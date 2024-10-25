@@ -20,7 +20,7 @@ A case study based on the Google Data Analytics Capstone Project, where I analyz
 - **Objective**: Analyze trip data to understand how casual and annual members use the service differently.
 - **Outcome**: The analysis helped identify key user behavior trends, providing insights for marketing strategies aimed at converting casual riders into annual members.
 
-#### [View the Analysis Report](https://naurahhanaf.github.io/project/cyclistic-analysis/docs/analysis_report.html)
+#### [View the Analysis Report](https://naurahhanaf.github.io/learn-project/cyclistic-analysis/docs/analysis_report.html)
 
 ### 3. [Water Potability Prediction](https://github.com/naurahhanaf/project/tree/main/water-potability-prediction)
 A supervised machine learning project in the Fundamentals of Data Science course at my college, where I predicted Water Quality datasey from Kaggle.
