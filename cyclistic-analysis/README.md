@@ -27,4 +27,4 @@ Proyek ini merupakan bagian dari studi kasus pada kursus **Google Data Analytics
    install.packages("tidyverse")
    install.packages("rmarkdown")
 
-4. Buka file `analysis.r` dan jalankan kode R untuk melakukan analisis atau kunjungi [link ini](https://naurahhanaf.github.io/project/cyclistic-analysis/docs/analysis_report.html) untuk melihat dokumentasi analisis.
+4. Buka file `analysis.r` dan jalankan kode R untuk melakukan analisis atau kunjungi [link ini](https://naurahhanaf.github.io/learn-project/cyclistic-analysis/docs/analysis_report.html) untuk melihat dokumentasi analisis.
